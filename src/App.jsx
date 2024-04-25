@@ -6,6 +6,8 @@ import { Route, Routes } from 'react-router-dom';
 
 import { createClient } from '@supabase/supabase-js';
 import Chat from './pages/Chat.jsx';
+import Home from './pages/Home.jsx';
+
 
 
 const supabaseUrl = "https://jftaxymlbutkjoacvtbk.supabase.co";
@@ -14,76 +16,15 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 
 
 function App() {
-  const [username, setUsername] = useState('Anonymous');
-  const [messages, setMessages] = useState([]);
-  const [audienceChat, setAudienceChat] = useState(false);
-
-  useEffect(() => {
-    // Subscribe to real-time inserts
-    const channels = supabase.channel('custom-inserts')
-      .on(
-        'postgres_changes',
-        { event: 'INSERT', schema: 'public', table: 'messages' },
-        (payload) => {
-          const newMessage = {
-            message: payload.new.message,
-            sender: payload.new.sender,
-            owner: payload.new.sender === username
-          };
-          setMessages(prevMessages => [...prevMessages, newMessage]);
-        }
-      )
-      .subscribe();
-
-    const controls = supabase.channel('controller')
-      .on(
-        'postgres_changes',
-        { event: 'INSERT', schema: 'public', table: 'controls' },
-        (payload) => {
-          const canChat = payload.new.audienceChat;
-          setAudienceChat(canChat);
-        }
-      )
-      .subscribe();
-
-    return () => {
-      // Unsubscribe from channel when component unmounts
-      channels.unsubscribe();
-    };
-  }, [username]);
-
 
   return (
     <>
-
       <Routes>
-        <Route path="/" element={<App />} />
+        <Route path="/" element={<Home />} />
         <Route path="/chat" element={<Chat />} />
       </Routes>
 
-      <h1 style={{
-        color: 'grey',
-        fontSize: '1.5rem',
-        margin: '5px',
-      }} onClick={() => setUsername(prompt('Enter a username'))}>{username}</h1>
-      <div className="Chat" style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: 'flex-start',
-        justifyContent: 'flex-start',
-      }}>
-        {messages.map((msg, index) => {
-          return (
-            <Message
-              key={index}
-              message={msg.message}
-              sender={msg.sender}
-              owner={msg.sender === username}
-            />
-          );
-        })}
-      </div>
-      <Sender username={username} canChat={true} />
+      
     </>
   );
 }
