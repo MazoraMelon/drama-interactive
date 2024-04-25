@@ -7,6 +7,7 @@ import { Route, Routes } from 'react-router-dom';
 import { createClient } from '@supabase/supabase-js';
 import Chat from './pages/Chat.jsx';
 import Home from './pages/Home.jsx';
+import Controls from './pages/Control.jsx';
 
 
 
@@ -16,15 +17,29 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 
 
 function App() {
+  // REALTIME LISTENERS
+  const channelA = supabase.channel('show')
+  function messageReceived(payload) {
+    console.log(payload)
+  }
 
+  // Subscribe to the Channel
+  channelA
+    .on(
+      'broadcast',
+      { event: 'test' },
+      (payload) => messageReceived(payload)
+    )
+    .subscribe()
   return (
     <>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/chat" element={<Chat />} />
+        <Route path="/controls" element={<Controls />} />
       </Routes>
 
-      
+
     </>
   );
 }
