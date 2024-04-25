@@ -7,7 +7,7 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 
 export default function Sender(props) {
 
-    let canChat = true
+    let canChat = props.canChat;
     canChat ? console.log("Audience chat enabled") : console.log("Audience chat disabled");
     console.log(props.audienceChat)
     let placeolder = "Send a message"
