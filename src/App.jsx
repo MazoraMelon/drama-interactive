@@ -74,7 +74,7 @@ function App() {
           );
         })}
       </div>
-      <Sender username={username} canChat={audienceChat} />
+      <Sender username={username} canChat={true} />
     </>
   );
 }
