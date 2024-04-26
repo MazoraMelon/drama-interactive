@@ -20,7 +20,7 @@ function Home() {
 
                 alignItems: "center",
                 justifyContent: "center",
-                backgroundImage: "linear-gradient(to bottom, orangered, red)",
+                backgroundColor: "#1f1f1f",
                 height: "100vh",
             }}>
                 <h1 style={{
@@ -29,7 +29,7 @@ function Home() {
                     textAlign: "center",
                     fontSize: "50px",
                     margin: "0px",
-                    backgroundColor: "#1f1f1f",
+                    backgroundColor: "#262626",
                     borderRadius: "20px",
                 }}>Welcome Aboard</h1>
                 <h4 style={{
@@ -42,22 +42,21 @@ function Home() {
 
                 <button style={{
                     color: "white",
-                    backgroundColor: "#1f1f1f",
+                    backgroundColor: "#262626",
                     borderRadius: "20px",
                     padding: "10px 20px",
                     border: "none",
                     cursor: "pointer",
                     fontSize: "20px",
                     fontWeight: "bold",
-                    boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.5)",
                     transition: "all 0.3s ease",
-                    width: "200px",
+                    width: "fit-content",
                     height: "50px",
                     alignSelf: "center",
                     left: "50%",
                     transform: "translateX(-50%)",
                     position: "absolute",
-                }}>Preparing Show</button>
+                }}>Preparing Show ▶▶▶</button>
             </div>
         </>
     );
