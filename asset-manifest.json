@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/dramainteractive/static/css/main.f35226da.css",
-    "main.js": "/dramainteractive/static/js/main.f1bd2bfe.js",
-    "static/js/482.72928206.chunk.js": "/dramainteractive/static/js/482.72928206.chunk.js",
-    "static/js/453.31af9124.chunk.js": "/dramainteractive/static/js/453.31af9124.chunk.js",
-    "index.html": "/dramainteractive/index.html",
-    "main.f35226da.css.map": "/dramainteractive/static/css/main.f35226da.css.map",
-    "main.f1bd2bfe.js.map": "/dramainteractive/static/js/main.f1bd2bfe.js.map",
-    "482.72928206.chunk.js.map": "/dramainteractive/static/js/482.72928206.chunk.js.map",
-    "453.31af9124.chunk.js.map": "/dramainteractive/static/js/453.31af9124.chunk.js.map"
+    "main.css": "/drama-interactive/static/css/main.f35226da.css",
+    "main.js": "/drama-interactive/static/js/main.d4f80423.js",
+    "static/js/482.72928206.chunk.js": "/drama-interactive/static/js/482.72928206.chunk.js",
+    "static/js/453.31af9124.chunk.js": "/drama-interactive/static/js/453.31af9124.chunk.js",
+    "index.html": "/drama-interactive/index.html",
+    "main.f35226da.css.map": "/drama-interactive/static/css/main.f35226da.css.map",
+    "main.d4f80423.js.map": "/drama-interactive/static/js/main.d4f80423.js.map",
+    "482.72928206.chunk.js.map": "/drama-interactive/static/js/482.72928206.chunk.js.map",
+    "453.31af9124.chunk.js.map": "/drama-interactive/static/js/453.31af9124.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.f35226da.css",
-    "static/js/main.f1bd2bfe.js"
+    "static/js/main.d4f80423.js"
   ]
 }
