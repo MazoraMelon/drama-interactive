@@ -9,6 +9,7 @@ import Chat from './pages/Chat.jsx';
 import Home from './pages/Home.jsx';
 import Controls from './pages/Control.jsx';
 import Vote from './pages/Vote.jsx';
+import Board from './pages/Board.jsx';
 
 const supabaseUrl = "https://jftaxymlbutkjoacvtbk.supabase.co";
 const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpmdGF4eW1sYnV0a2pvYWN2dGJrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTM5NjkxOTMsImV4cCI6MjAyOTU0NTE5M30.2aT1UzmiN34aKLNRUXAKwhKfnuwxMoiM3eMkHs1oyZU";
@@ -16,6 +17,7 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 
 function App() {
   const [user, setUser] = useState(null);
+
 
   async function getURL() {
     const { data, error } = await supabase
@@ -27,12 +29,16 @@ function App() {
     console.log("Supabase: " + url)
     if (url !== "" && url !== null && !user) {
       if (url !== window.location.href) {
-        window.location.href = url
+        if (!window.location.pathname.toLowerCase().includes("controls")) {
+          if (!window.location.pathname.toLowerCase().includes("board")) {
+            window.location.href = url
+          }
+        }
       }
     }
 
   }
-  // getURL() This makes controller move page
+  getURL()
 
   async function getUser() {
     try {
@@ -51,6 +57,7 @@ function App() {
       }
       if (document.getElementById('signinform')) {
         document.getElementById('signinform').style.display = 'none';
+        document.getElementById('signout').style.display = 'flex';
       }
     } catch (error) {
       console.error('Error fetching user:', error.message);
@@ -93,6 +100,7 @@ function App() {
         <Route path="/chat" element={<Chat />} />
         <Route path="/controls" element={<Controls />} />
         <Route path="/vote" element={<Vote />} />
+        <Route path="/board" element={<Board />} />
       </Routes>
     </>
   );

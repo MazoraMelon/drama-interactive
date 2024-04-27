@@ -20,11 +20,19 @@ function Controls() {
             password: document.getElementById('password').value
         })
         console.log(user, error)
+        localStorage.setItem('controller', 'true');
     }
     async function broadcasturl() {
         // Join a room/topic. Can be anything except for 'realtime'.
         const nexturl = document.getElementById('url').value
-
+        //Set the current page in supabase
+        const { data, error } = await supabase
+            .from('controller')
+            .update({ currentURL: nexturl })
+            .eq('id', 1)
+        if (error) {
+            alert(error)
+        }
         const channelB = supabase.channel('show', {
             config: {
                 broadcast: {
@@ -50,51 +58,74 @@ function Controls() {
     }
     return (
         <>
-            <h1>Controls</h1>
             <div style={{
                 backgroundColor: "#1f1f1f",
-                padding: "20px",
-                borderRadius: "10px",
+                color: "white",
+                height: "100vh",
                 display: "flex",
                 flexDirection: "column",
-                alignItems: "center",
-                width: "fit-content",
-                alignSelf: "center",
+                width: "100vw",
             }}>
-                <h2 style={{
-                    color: "white",
-                }}>URL Director</h2>
-                <input id="url" type="text" placeholder="URL" style={{
-                    padding: "10px",
+                <h1>Controls</h1>
+                <div style={{
                     backgroundColor: "#1f1f1f",
-                    color: "white",
+                    padding: "20px",
                     borderRadius: "10px",
                     border: "2px solid #424242",
-                    outline: "none",
-                    fontSize: "20px",
-                }}></input><br />
-                <button onClick={broadcasturl} style={{
-                    padding: "10px",
-                    backgroundColor: "#1f1f1f",
-                    color: "white",
-                    borderRadius: "10px",
-                    border: "none",
-                    fontSize: "20px",
-                    marginBottom: "20px",
-                    border: "2px solid #424242",
-                    marginTop: "20px",
-                    cursor: "pointer",
-                    width: "200px",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    width: "fit-content",
                     alignSelf: "center",
-                }}>Broadcast</button>
+                }}>
+                    <h2 style={{
+                        color: "white",
+                    }}>URL Director</h2>
+                    <input id="url" type="text" placeholder="URL" style={{
+                        padding: "10px",
+                        backgroundColor: "#1f1f1f",
+                        color: "white",
+                        borderRadius: "10px",
+                        border: "2px solid #424242",
+                        outline: "none",
+                        fontSize: "20px",
+                    }}></input><br />
+                    <button onClick={broadcasturl} style={{
+                        padding: "10px",
+                        backgroundColor: "#1f1f1f",
+                        color: "white",
+                        borderRadius: "10px",
+                        border: "none",
+                        fontSize: "20px",
+                        marginBottom: "20px",
+                        border: "2px solid #424242",
+                        marginTop: "20px",
+                        cursor: "pointer",
+                        width: "200px",
+                        alignSelf: "center",
+                    }}>Broadcast</button>
+                </div>
+
+                <form id="signinform" onSubmit={(e) => { signIn(e) }}>
+                    <h2 style={
+                        {
+                            color: "red",
+                        }
+                    }>You must be signed in to not change page</h2>
+                    <input type="email" placeholder="Email" name="email" id="email" /><br />
+                    <input type="password" placeholder="Password" name="password" id="password" /><br />
+                    <input type="submit" value="Submit" />
+                </form>
+                <button style={{
+                    display: "none",
+                    width: "200px",
+                    border: "2px solid #424242",
+                    borderRadius: "10px",
+                    backgroundColor: "#1f1f1f",
+                    color: "white",
+                    height: "50px",
+                }} id="signout" onClick={() => { supabase.auth.signOut() }}>Sign out</button>
             </div>
-
-
-            <form id="signinform" onSubmit={(e) => { signIn(e) }}>
-                <input type="email" placeholder="Email" name="email" id="email" /><br />
-                <input type="password" placeholder="Password" name="password" id="password" /><br />
-                <input type="submit" value="Submit" />
-            </form>
         </>
     );
 }
