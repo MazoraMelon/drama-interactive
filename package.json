@@ -4,6 +4,7 @@
   "private": true,
   "homepage": "https://drama-interactive.netlify.app/",
   "dependencies": {
+    "@supabase/supabase-js": "^2.43.1",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -20,7 +21,6 @@
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
-    
     "notes:": "gh-pages is probably not used anytmore since we use netlify"
   },
   "eslintConfig": {
