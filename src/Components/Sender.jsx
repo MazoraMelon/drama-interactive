@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { createClient } from '@supabase/supabase-js'
 
 const supabaseUrl = "https://jftaxymlbutkjoacvtbk.supabase.co";
@@ -6,18 +6,43 @@ const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 export default function Sender(props) {
+    const [canChat, setChattingOn] = useState(false);
+    const [placeholder, setPlaceholder] = useState("Send a message");
 
-    let canChat = props.canChat;
-    canChat ? console.log("Audience chat enabled") : console.log("Audience chat disabled");
-    console.log(props.audienceChat)
-    let placeolder = "Send a message"
-    if (!canChat) {
-        placeolder = "Audience chat not enabled"
-    }
+    useEffect(() => {
+
+
+
+        const controller = supabase.channel('chat-channel')
+            .on(
+                'postgres_changes',
+                { event: 'UPDATE', schema: 'public', table: 'controller' },
+                (payload) => {
+                    if (payload.new.audienceChat !== null) {
+                        const canNowChat = payload.new.audienceChat
+                        setChattingOn(canNowChat);
+                        console.log(canNowChat);
+                        if (canNowChat === false) {
+                            console.log("Audience chat disabled");
+                            setPlaceholder("Audience chat disabled");
+                        } else {
+                            console.log("Audience chat enabled");
+                            setPlaceholder("Send a message");
+                        }
+                    }
+                }
+            )
+            .subscribe()
+
+
+    }, []);
 
     async function sendMessage(event) {
         event.preventDefault(); // Prevent default form submission behavior
         const message = document.getElementById('message').value;
+        if (message === "") {
+            return;
+        }
         document.getElementById('message').value = "";
         const { data, error } = await supabase
             .from('messages')
@@ -46,7 +71,7 @@ export default function Sender(props) {
             <input
                 id="message"
                 type="text"
-                placeholder={placeolder}
+                placeholder={placeholder}
                 autoComplete="off"
                 style={{
                     padding: "5px",
@@ -76,3 +101,4 @@ export default function Sender(props) {
         </form>
     );
 }
+

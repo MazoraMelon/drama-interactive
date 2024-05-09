@@ -33,13 +33,15 @@ function Controls() {
         if (error) {
             alert(error)
         }
-        const channelB = supabase.channel('show', {
-            config: {
-                broadcast: {
-                    self: false,
-                },
-            },
-        })
+    }
+
+
+
+    async function actorMessage(e) {
+        e.preventDefault()
+        const message = document.getElementById('message').value
+        // Join a room/topic. Can be anything except for 'realtime'.
+        const channelB = supabase.channel('actorMessage')
 
         channelB.subscribe((status) => {
             // Wait for successful connection
@@ -47,38 +49,13 @@ function Controls() {
                 return null
             }
 
-            alert("Connection success")
-
             // Send a message once the client is subscribed
             channelB.send({
                 type: 'broadcast',
-                event: 'urlchange',
-                payload: { url: nexturl },
+                event: 'actorMessage',
+                payload: { message: message },
             })
         })
-
-    }
-
-
-
-    function actorMessage() {
-        // const message = document.getElementById('message').value
-        // // Join a room/topic. Can be anything except for 'realtime'.
-        // const channelB = supabase.channel('actorMessage')
-
-        // channelB.subscribe((status) => {
-        //     // Wait for successful connection
-        //     if (status !== 'SUBSCRIBED') {
-        //         return null
-        //     }
-
-        //     // Send a message once the client is subscribed
-        //     channelB.send({
-        //         type: 'broadcast',
-        //         event: 'actorMessage',
-        //         payload: { message: 'Hi there' },
-        //     })
-        // })
 
     }
     return (
@@ -143,7 +120,19 @@ function Controls() {
                     marginBottom: "20px",
                     width: "300px",
                     alignSelf: "center",
-                }} onSubmit={actorMessage} />
+                }} onSubmit={actorMessage} /><button style={{
+                    padding: "10px",
+                    backgroundColor: "#1f1f1f",
+                    color: "white",
+                    borderRadius: "10px",
+                    width: "fit-content",
+                    fontSize: "20px",
+                    marginBottom: "20px",
+                    border: "2px solid #424242",
+                    marginTop: "0px",
+                    cursor: "pointer",
+                    alignSelf: "center",
+                }} onClick={actorMessage}>Send Board Message</button>
 
                 <form id="signinform" onSubmit={(e) => { signIn(e) }}>
                     <h2 style={

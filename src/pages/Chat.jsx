@@ -46,21 +46,13 @@ function Chat() {
             )
             .subscribe();
 
-        const controls = supabase.channel('controller')
-            .on(
-                'postgres_changes',
-                { event: 'INSERT', schema: 'public', table: 'controls' },
-                (payload) => {
-                    const canChat = payload.new.audienceChat;
-                    setAudienceChat(canChat);
-                }
-            )
-            .subscribe();
+
+
+
 
         return () => {
             // Unsubscribe from channels when component unmounts
             channels.unsubscribe();
-            controls.unsubscribe();
         };
     }, [username]);
 

@@ -83,14 +83,17 @@ function App() {
       }
 
       // Subscribe to the Channel
-      channelA
-        .on('broadcast', { event: 'urlchange' }, messageReceived)
-        .subscribe();
-
-      // Unsubscribe when component unmounts or user changes
-      return () => {
-        channelA.unsubscribe();
-      };
+      const channel = supabase
+        .channel('schema-db-changes')
+        .on(
+          'postgres_changes',
+          {
+            event: 'UPDATE',
+            schema: 'public',
+          },
+          (payload) => console.log(payload)
+        )
+        .subscribe()
     }
   }, [user]); // Run whenever user changes
 
