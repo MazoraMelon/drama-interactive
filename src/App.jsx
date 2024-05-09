@@ -69,6 +69,34 @@ function App() {
   }, []); // Run only on component mount
 
   useEffect(() => {
+
+    const urlchanges = supabase
+      .channel('schema-db-changes')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+        },
+        (payload) => {
+          const url = payload.new.currentURL
+          console.log("URL: " + window.location.href)
+          if (url !== "" && url !== null) {
+            if (url !== window.location.href) {
+              if (!window.location.pathname.toLowerCase().includes("controls")) {
+                if (!window.location.pathname.toLowerCase().includes("board")) {
+                  console.log("URL: " + url)
+                  window.location.href = url
+                }
+              }
+            }
+          }
+        }
+      )
+      .subscribe()
+  })
+
+  useEffect(() => {
     if (!user) {
       // REALTIME LISTENERS
       const channelA = supabase.channel('show');
@@ -82,18 +110,7 @@ function App() {
         }
       }
 
-      // Subscribe to the Channel
-      const channel = supabase
-        .channel('schema-db-changes')
-        .on(
-          'postgres_changes',
-          {
-            event: 'UPDATE',
-            schema: 'public',
-          },
-          (payload) => console.log(payload)
-        )
-        .subscribe()
+
     }
   }, [user]); // Run whenever user changes
 

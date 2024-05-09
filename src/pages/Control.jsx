@@ -57,7 +57,27 @@ function Controls() {
             })
         })
 
+
+
+
+
     }
+    useEffect(() => {
+
+        async function changeChat(canChatTickbox) {
+            const { data, error } = await supabase
+                .from('controller')
+                .update({ audienceChat: canChatTickbox })
+                .eq('id', 1)
+            if (error) {
+                alert(error)
+            }
+        }
+        document.getElementById('canChat').addEventListener('change', (e) => {
+            const canChatTickbox = e.target.checked
+            changeChat(canChatTickbox)
+        })
+    })
     return (
         <>
             <div style={{
@@ -134,6 +154,13 @@ function Controls() {
                     alignSelf: "center",
                 }} onClick={actorMessage}>Send Board Message</button>
 
+                <label for="canChat">Can Chat</label><input type="checkbox" id="canChat" style={{
+                    display: "flex",
+                    width: "3vw",
+                    height: "3vh",
+                }} /><br />
+
+
                 <form id="signinform" onSubmit={(e) => { signIn(e) }}>
                     <h2 style={
                         {
@@ -153,6 +180,8 @@ function Controls() {
                     color: "white",
                     height: "50px",
                 }} id="signout" onClick={() => { supabase.auth.signOut() }}>Sign out</button>
+
+
             </div >
         </>
     );
