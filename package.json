@@ -2,7 +2,7 @@
   "name": "dramainteractive",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://MazoraMelon.github.io/dramainteractive",
+  "homepage": "https://gh-pages--drama-interactive.netlify.app/",
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",

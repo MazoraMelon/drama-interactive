@@ -10,26 +10,50 @@ const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 function Board(props) {
-    const [acts, setActs] = useState([]);
+    const [message, setMessage] = useState(":)");
 
     useEffect(() => {
-        async function fetchActs() {
-            const { data, error } = await supabase.from('acts').select("*");
-            if (error) {
-                console.error("Error fetching acts:", error);
-            } else {
-                setActs(data);
-            }
+        // Join a room/topic. Can be anything except for 'realtime'.
+        const channelA = supabase.channel('actorMessage');
+
+        // Simple function to log any messages we receive
+        function messageReceived(payload) {
+            setMessage(payload.payload.message);
         }
-        fetchActs();
-    }, []);
+
+        // Subscribe to the Channel
+        channelA
+            .on(
+                'broadcast',
+                { event: 'actorMessage' },
+                (payload) => messageReceived(payload)
+            )
+            .subscribe();
+
+        // Unsubscribe when the component unmounts
+        return () => {
+            channelA.unsubscribe();
+        };
+    }, []); // Empty dependency array means this effect runs only once, on mount
 
     return (
         <>
-            <h1>Board</h1>
-            {acts.map((act, index) => (
-                <ActGraph name={act.name} />
-            ))}
+            <div style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                width: '100vw',
+                height: '100vh',
+                backgroundColor: '#1f1f1f',
+                color: 'white',
+                alignContent: 'center',
+                justifyContent: 'center',
+                overflow: 'hidden',
+                position: 'relative',
+                fontSize: '3vw',
+            }}>
+                <h1>{message}</h1>
+            </div>
         </>
     );
 }

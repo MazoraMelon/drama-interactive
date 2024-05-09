@@ -8,19 +8,20 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 
 export default function ActGraph(props) {
     let color = "white";
+    let text = `${props.name} ${props.completed ? "✔" : ""}`
     if (props.completed === true) {
-        color = "#424242"
+        color = "lightgrey"
     }
 
     return (
         <>
             <h1 style={{
                 backgroundColor: "#1f1f1f",
-                color: "white",
+                color: color,
                 width: "fit-content",
                 padding: "2px",
                 borderRadius: "5px"
-            }}>{props.name}</h1>
+            }}>{text}</h1>
         </>
     );
 }

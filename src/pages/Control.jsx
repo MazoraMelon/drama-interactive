@@ -47,6 +47,8 @@ function Controls() {
                 return null
             }
 
+            alert("Connection success")
+
             // Send a message once the client is subscribed
             channelB.send({
                 type: 'broadcast',
@@ -54,6 +56,29 @@ function Controls() {
                 payload: { url: nexturl },
             })
         })
+
+    }
+
+
+
+    function actorMessage() {
+        // const message = document.getElementById('message').value
+        // // Join a room/topic. Can be anything except for 'realtime'.
+        // const channelB = supabase.channel('actorMessage')
+
+        // channelB.subscribe((status) => {
+        //     // Wait for successful connection
+        //     if (status !== 'SUBSCRIBED') {
+        //         return null
+        //     }
+
+        //     // Send a message once the client is subscribed
+        //     channelB.send({
+        //         type: 'broadcast',
+        //         event: 'actorMessage',
+        //         payload: { message: 'Hi there' },
+        //     })
+        // })
 
     }
     return (
@@ -106,6 +131,20 @@ function Controls() {
                     }}>Broadcast</button>
                 </div>
 
+                <br />
+                <input id="message" type="text" placeholder="ActorMessage" autoComplete="off" style={{
+                    padding: "10px",
+                    backgroundColor: "#1f1f1f",
+                    color: "white",
+                    borderRadius: "10px",
+                    border: "2px solid #424242",
+                    outline: "none",
+                    fontSize: "20px",
+                    marginBottom: "20px",
+                    width: "300px",
+                    alignSelf: "center",
+                }} onSubmit={actorMessage} />
+
                 <form id="signinform" onSubmit={(e) => { signIn(e) }}>
                     <h2 style={
                         {
@@ -125,7 +164,7 @@ function Controls() {
                     color: "white",
                     height: "50px",
                 }} id="signout" onClick={() => { supabase.auth.signOut() }}>Sign out</button>
-            </div>
+            </div >
         </>
     );
 }

@@ -74,6 +74,7 @@ function App() {
       const channelA = supabase.channel('show');
 
       function messageReceived(payload) {
+        alert("Got it");
         console.log(payload);
         const url = payload.payload.url;
         if (url !== window.location.href) {

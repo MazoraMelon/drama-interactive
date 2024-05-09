@@ -26,7 +26,23 @@ function Vote(props) {
     }, []);
 
     async function broadcastAct(name) {
-        
+        // Join a room/topic. Can be anything except for 'realtime'.
+        const channelB = supabase.channel('votes')
+
+        channelB.subscribe((status) => {
+            // Wait for successful connection
+            if (status !== 'SUBSCRIBED') {
+                return null
+            }
+
+            // Send a message once the client is subscribed
+            channelB.send({
+                type: 'broadcast',
+                event: 'vote',
+                payload: { vote: name },
+            })
+        })
+
     }
 
     return (
