@@ -7,7 +7,7 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 
 export default function Sender(props) {
     const [canChat, setChattingOn] = useState(false);
-    const [placeholder, setPlaceholder] = useState("Send a message");
+    const [placeholder, setPlaceholder] = useState("Audience Chat Disabled");
 
     useEffect(() => {
 
@@ -50,6 +50,22 @@ export default function Sender(props) {
         console.log("Sending message: " + message);
     }
 
+    async function getChatAllowed() {
+        const { data, error } = await supabase
+            .from("controller")
+            .select('audienceChat')
+
+        const canChat = data[0].audienceChat
+        console.log(canChat)
+        setChattingOn(canChat)
+        if (canChat === false) {
+            setPlaceholder("Audience chat disabled")
+        } else {
+            setPlaceholder("Send a message")
+        }
+    }
+    getChatAllowed();
+
     return (
         <form
             onSubmit={sendMessage} // Call sendMessage when form is submitted
@@ -78,6 +94,7 @@ export default function Sender(props) {
                     borderRadius: "20px",
                     border: "1px solid lightgrey",
                     width: "80%",
+                    height: "1.5rem",
                     fontSize: "1rem",
                     outline: "none",
                 }}
@@ -91,6 +108,7 @@ export default function Sender(props) {
                     backgroundColor: "#218aff",
                     color: "white",
                     border: "none",
+                    height: "2rem",
                     borderRadius: "20px",
                     fontSize: "1rem",
                     fontWeight: "bold",

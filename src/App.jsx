@@ -10,6 +10,7 @@ import Home from './pages/Home.jsx';
 import Controls from './pages/Control.jsx';
 import Vote from './pages/Vote.jsx';
 import Board from './pages/Board.jsx';
+import Running from './pages/Running.jsx';
 
 const supabaseUrl = "https://jftaxymlbutkjoacvtbk.supabase.co";
 const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpmdGF4eW1sYnV0a2pvYWN2dGJrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTM5NjkxOTMsImV4cCI6MjAyOTU0NTE5M30.2aT1UzmiN34aKLNRUXAKwhKfnuwxMoiM3eMkHs1oyZU";
@@ -25,12 +26,12 @@ function App() {
       .select('currentURL')
       .limit(1)
     const url = data[0].currentURL
-    console.log("URL: " + window.location.href)
-    console.log("Supabase: " + url)
+    console.log("Current url: " + window.location.href)
+    console.log("Supabase given url: " + url)
     if (url !== "" && url !== null && !user) {
       if (url !== window.location.href) {
-        if (!window.location.pathname.toLowerCase().includes("controls")) {
-          if (!window.location.pathname.toLowerCase().includes("board")) {
+        if (!window.location.pathname.toLowerCase().includes("controls") && !window.location.hash.toLowerCase().includes("controls")) {
+          if (!window.location.pathname.toLowerCase().includes("board") && !window.location.hash.toLowerCase().includes("board")) {
             window.location.href = url
           }
         }
@@ -75,23 +76,23 @@ function App() {
       .on(
         'postgres_changes',
         {
-          event: '*',
+          event: 'UPDATE',
           schema: 'public',
         },
         (payload) => {
           const url = payload.new.currentURL
           console.log("URL: " + window.location.href)
-          if (url !== "" && url !== null) {
+          if (url !== "" && url !== null && !user) {
             if (url !== window.location.href) {
-              if (!window.location.pathname.toLowerCase().includes("controls")) {
-                if (!window.location.pathname.toLowerCase().includes("board")) {
-                  console.log("URL: " + url)
+              if (!window.location.pathname.toLowerCase().includes("controls") && !window.location.hash.toLowerCase().includes("controls")) {
+                if (!window.location.pathname.toLowerCase().includes("board") && !window.location.hash.toLowerCase().includes("board")) {
                   window.location.href = url
                 }
               }
             }
           }
         }
+
       )
       .subscribe()
   })
@@ -102,7 +103,7 @@ function App() {
       const channelA = supabase.channel('show');
 
       function messageReceived(payload) {
-        alert("Got it");
+
         console.log(payload);
         const url = payload.payload.url;
         if (url !== window.location.href) {
@@ -122,6 +123,7 @@ function App() {
         <Route path="/controls" element={<Controls />} />
         <Route path="/vote" element={<Vote />} />
         <Route path="/board" element={<Board />} />
+        <Route path="/running" element={<Running />} />
       </Routes>
     </>
   );

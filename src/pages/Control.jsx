@@ -140,7 +140,11 @@ function Controls() {
                     marginBottom: "20px",
                     width: "300px",
                     alignSelf: "center",
-                }} onSubmit={actorMessage} /><button style={{
+                }} onSubmit={actorMessage} /><label style={{
+                    alignSelf: "center",
+                    marginBottom: "10px",
+                    color: "orangered",
+                }}>Must be signed in on board</label><button style={{
                     padding: "10px",
                     backgroundColor: "#1f1f1f",
                     color: "white",

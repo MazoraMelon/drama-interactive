@@ -12,7 +12,7 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 function Chat() {
     const [username, setUsername] = useState(localStorage.getItem('username') || null);
     const [messages, setMessages] = useState([]);
-    const [audienceChat, setAudienceChat] = useState(false);
+    // const [audienceChat, setAudienceChat] = useState(false);
 
     useEffect(() => {
         // Function to set the username
@@ -27,6 +27,7 @@ function Chat() {
             }
         }
         setUserName();
+
     }, []);
 
     useEffect(() => {
@@ -55,6 +56,8 @@ function Chat() {
             channels.unsubscribe();
         };
     }, [username]);
+
+
 
     return (
         <>
@@ -90,7 +93,7 @@ function Chat() {
                     />
                 ))}
             </div>
-            <Sender username={username} canChat={audienceChat} />
+            <Sender username={username} />
         </>
     );
 }
