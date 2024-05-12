@@ -1,17 +1,17 @@
 {
   "files": {
     "main.css": "/drama-interactive/static/css/main.366f9c31.css",
-    "main.js": "/drama-interactive/static/js/main.91204ab1.js",
+    "main.js": "/drama-interactive/static/js/main.cc161cf0.js",
     "static/js/952.14f4e618.chunk.js": "/drama-interactive/static/js/952.14f4e618.chunk.js",
     "static/js/453.31af9124.chunk.js": "/drama-interactive/static/js/453.31af9124.chunk.js",
     "index.html": "/drama-interactive/index.html",
     "main.366f9c31.css.map": "/drama-interactive/static/css/main.366f9c31.css.map",
-    "main.91204ab1.js.map": "/drama-interactive/static/js/main.91204ab1.js.map",
+    "main.cc161cf0.js.map": "/drama-interactive/static/js/main.cc161cf0.js.map",
     "952.14f4e618.chunk.js.map": "/drama-interactive/static/js/952.14f4e618.chunk.js.map",
     "453.31af9124.chunk.js.map": "/drama-interactive/static/js/453.31af9124.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.366f9c31.css",
-    "static/js/main.91204ab1.js"
+    "static/js/main.cc161cf0.js"
   ]
 }
