@@ -37,6 +37,7 @@ function Running() {
                 left: x + "px",
                 top: y + "px",
                 filter: "blur(200px)",
+                WebkitBackfaceVisibility: "hidden", /* Fixes a bug in safari where the blur filter doesn't work */
                 overflow: "hidden",
             }
             } />
@@ -46,7 +47,7 @@ function Running() {
     useEffect(() => {
         document.body.style.overflow = "hidden";
         return () => {
-            document.body.style.overflow = "";
+            document.body.style.overflow = "hidden";
         };
     }, []);
 
@@ -58,11 +59,13 @@ function Running() {
                 alignItems: "center",
                 justifyContent: "center",
                 backgroundColor: "#1f1f1f",
-                height: "100vh",
+                height: "110vh",
+                width: "100vw",
                 color: "white",
-                position: "fixed",
-                left: "0px",
-                top: "0px",
+                position: "absolute",
+                left: "50%",
+                top: "50%",
+                transform: "translate(-50%, -50%)",
                 width: "100vw",
                 zIndex: "10",
             }}>
@@ -72,6 +75,7 @@ function Running() {
                     fontSize: "50px",
                     margin: "0px",
                     position: "absolute",
+                    height: "fit-content",
                     borderRadius: "20px",
                     top: "50%",
                     left: "50%",

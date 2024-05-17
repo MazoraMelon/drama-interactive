@@ -11,28 +11,31 @@ export default function Sender(props) {
 
     useEffect(() => {
 
-
-
-        const controller = supabase.channel('chat-channel')
-            .on(
-                'postgres_changes',
-                { event: 'UPDATE', schema: 'public', table: 'controller' },
-                (payload) => {
-                    if (payload.new.audienceChat !== null) {
-                        const canNowChat = payload.new.audienceChat
-                        setChattingOn(canNowChat);
-                        console.log(canNowChat);
-                        if (canNowChat === false) {
-                            console.log("Audience chat disabled");
-                            setPlaceholder("Audience chat disabled");
-                        } else {
-                            console.log("Audience chat enabled");
-                            setPlaceholder("Send a message");
+        const isActor = localStorage.getItem('actor') === 'true';
+        setChattingOn(isActor);
+        if (!isActor) {
+            const controller = supabase.channel('chat-channel')
+                .on(
+                    'postgres_changes',
+                    { event: 'UPDATE', schema: 'public', table: 'controller' },
+                    (payload) => {
+                        if (payload.new.audienceChat !== null) {
+                            const canNowChat = payload.new.audienceChat
+                            console.log(canNowChat);
+                            if (canNowChat === false && !isActor) {
+                                setChattingOn(canNowChat);
+                                console.log("Audience chat disabled");
+                                setPlaceholder("Audience chat disabled");
+                            } else {
+                                console.log("Audience chat enabled");
+                                setPlaceholder("Send a message");
+                            }
                         }
                     }
-                }
-            )
-            .subscribe()
+                )
+                .subscribe()
+
+        }
 
 
     }, []);
@@ -56,12 +59,19 @@ export default function Sender(props) {
             .select('audienceChat')
 
         const canChat = data[0].audienceChat
-        console.log(canChat)
-        setChattingOn(canChat)
-        if (canChat === false) {
-            setPlaceholder("Audience chat disabled")
+        const isActor = localStorage.getItem('actor') === 'true';
+        setChattingOn(isActor);
+
+        if (!isActor) {
+            console.log(canChat)
+            setChattingOn(canChat)
+            if (canChat === false) {
+                setPlaceholder("Audience chat disabled")
+            } else {
+                setPlaceholder("Send a message")
+            }
         } else {
-            setPlaceholder("Send a message")
+            setPlaceholder("Send a message as an actor")
         }
     }
     getChatAllowed();

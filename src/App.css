@@ -37,3 +37,24 @@
     transform: rotate(360deg);
   }
 }
+
+.broadcastButton {
+  margin: 5px;
+  border-radius: 20px;
+  background-color: #1f1f1f;
+  color: lightgrey;
+  border: 2px solid #424242;
+  cursor: pointer;
+  padding: 5px;
+  width: fit-content;
+  transition: all .1s ease-in-out;
+}
+
+.broadcastButton:hover {
+  color: white;
+  background-color: #424242;
+}
+
+.broadcastButton:active {
+  background-color: #1f1f1f;
+}

@@ -21,8 +21,16 @@ function Chat() {
             if (!storedUsername || storedUsername === 'Anonymous' || storedUsername === null) {
                 const enteredUsername = prompt('Enter a username');
                 if (enteredUsername) {
-                    localStorage.setItem('username', enteredUsername);
-                    setUsername(enteredUsername);
+                    if (enteredUsername.startsWith('/')) {
+                        localStorage.setItem('actor', 'true');
+                        const usernamenoslash = enteredUsername.slice(1);
+                        localStorage.setItem('username', usernamenoslash);
+                        setUserName(usernamenoslash);
+                    } else {
+                        localStorage.setItem('actor', 'false');
+                        localStorage.setItem('username', enteredUsername);
+                        setUsername(enteredUsername);
+                    }
                 }
             }
         }

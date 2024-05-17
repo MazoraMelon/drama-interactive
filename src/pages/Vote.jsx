@@ -26,7 +26,12 @@ function Vote(props) {
     }, []);
 
     async function broadcastAct(name) {
+        const act = acts.find(a => a.name === name)
+        if (act && act.completed) {
+            return
+        }
         // Join a room/topic. Can be anything except for 'realtime'.
+        alert("Voted for " + name)
         const channelB = supabase.channel('votes')
 
         channelB.subscribe((status) => {
@@ -42,6 +47,7 @@ function Vote(props) {
                 payload: { vote: name },
             })
         })
+        window.location.href = "https://mazoramelon.github.io/drama-interactive/#waiting";
 
     }
 
@@ -65,7 +71,7 @@ function Vote(props) {
                     flexDirection: "column",
                 }}>
                     {acts.map((act) => (
-                        <ActButton key={act.id} name={act.name} completed={act.completed} whenclick={() => broadcastAct(act.name)} />
+                        <ActButton key={act.id} name={act.name} completed={act.completed} disabled={act.completed} whenclick={() => broadcastAct(act.name)} />
                     ))}
                 </div>
             </div>

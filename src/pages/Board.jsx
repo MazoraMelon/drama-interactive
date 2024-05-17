@@ -35,8 +35,8 @@ function Board(props) {
             channelA.unsubscribe();
         };
     }, []); // Empty dependency array means this effect runs only once, on mount
-    
-    
+
+
 
     return (
         <>

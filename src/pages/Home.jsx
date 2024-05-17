@@ -37,6 +37,7 @@ function Running() {
                 left: x + "px",
                 top: y + "px",
                 filter: "blur(200px)",
+                WebkitBackfaceVisibility: "hidden", /* Fixes a bug in safari where the blur filter doesn't work */
                 overflow: "hidden",
             }
             } />
